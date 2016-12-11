@@ -1,0 +1,131 @@
+///--------------------------------------------------------------------------///
+///--------------------------------------------------------------------------///
+
+/// @method increase
+/// increases a number in a map by X
+
+@function increase( $map, $key, $x:1  ){
+  @if type( $map, map ){
+    $h: has( $map, $key );
+    @if $h {
+      @if type( $h, number ) {
+        $v: $h + $x;
+        @return update( $map, $key, $v );
+      }
+    }
+  }
+}
+
+@function decrease( $map, $key, $x: 1 ){
+  @return increase( $map, $key, -$x );
+}
+
+///--------------------------------------------------------------------------///
+
+
+/// @method add
+/// accepts a map, adds a key:value pair and returns the merged map
+
+@function add( $map, $key, $val ){   
+  $um: map-merge( $map, ( #{$key}: $val ) ); 
+  @return $um; 
+}
+
+/// @method update
+/// updates a (deep) map, returning the updated (deep) map
+/// @param map {map} the map to start with
+/// @param key {string|list} 
+
+@function update( $map, $key, $val ){
+  
+  //check key type
+  $kt: type-of( $key );
+  
+  @if $kt == string {
+    
+  }
+  @if $kt == list {
+    
+  }
+  //get value
+  $h: has( $map, $key, true );
+  @if type( $h, map ) {
+        
+  }
+  @else {
+    @warn 'key does not exist. you should use add( $map, $key, $value )';
+  }
+  $um: map-merge( $map, ( #{$key}: $val ) ); 
+  @return $um; 
+}
+
+///-start of unit tester code------------------------------------------------///
+
+$_debug: (
+  tests: (),
+  total: 0,  
+ passed: (),
+ failed: ()
+);
+
+@import 'private';
+
+///--------------------------------------------------------------------------///
+
+///
+/// SASS/SCSS Unit Testing
+/// apply, test, result
+/// @use $verdict: test( $method_name, $arguments, $expect: true )
+/// @echo with @include result( $name, $verdict )
+/// @requires apply
+///
+
+@function test ( $n, $a, $e: true ){
+  /* testing #{$n} with #{$a} */  
+  $r: apply( $n, $a );  
+  $v: false;
+  @if compare( $e, $r ) { 
+    $v: true; 
+    $passed: append( $passed, $n );
+  }
+  @else { 
+    $te: type-of($e);
+    $tr: type-of($r);    
+    $v: 'expected (#{$te}) #{$e}, received (#{$tr}) #{$r}'; 
+    $passed: append( $failed, $n );
+  }  
+  @return $v;
+};
+
+///--------------------------------------------------------------------------///
+
+@mixin result( $name, $x ){
+  $m: 'could not process test result';
+  @if $x == true { //verdict
+    $m: '#{$name} passed!';    
+  } @else {
+    $m: '#{$name} failed: #{$x}'; //reason  
+  }
+  /* #{$m} */
+}
+
+///--------------------------------------------------------------------------///
+
+@mixin complete(){
+  $m: 'calculating results...';
+  //$passed: has( )
+  $p: length($passed);
+  $s: compare( $p, $total );
+  /* passed: #{$p}, total: #{$total}, equal: #{$s} */
+  
+  @if $s {
+    $m: 'All tests passed!'
+  }
+  @else {
+    $f: length( $failed );
+    $m: '#{$f} tests failed... #{$failed}'
+  }
+  /* #{$m} */
+}
+
+///--------------------------------------------------------------------------///

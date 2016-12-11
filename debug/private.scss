@@ -1,0 +1,56 @@
+@import
+  '../functions/has',
+  '../functions/increase',
+  '../functions/update';
+///--------------------------------------------------------------------------///
+
+$_debug: (
+  tests: (),     
+ passed: (),
+ failed: (),
+  total: 0,
+verdict: false
+);
+
+
+///--------------------------------------------------------------------------///
+
+//update global $_debug map
+@function _update( $key, $val ){   
+  $_debug: update( $_debug, $key, $val ) !global; 
+  @return $_debug; 
+}
+
+/// adds a new test
+@function _add( $test ){
+  //up the total
+  $i: _increase();
+  //add test to tests
+  $tests: _update( tests, $test );
+  $v: _get( verdict );
+  
+  @return $test;
+}
+
+///--------------------------------------------------------------------------///
+
+//gets a key's value
+@function _get( $key ){  
+  @return has( $_debug, $key, true );
+}
+
+//increases the total
+@function _increase(){
+  $i: increase( $_debug, total );  
+  @return $i;
+}
+
+//pushes a value into a list
+@function _push( $list, $value ){
+  $l: _get( $list );
+  $r: _update( $list, append( $l, $value ) );
+  @return $r;
+}
+///--------------------------------------------------------------------------///
+
+

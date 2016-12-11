@@ -1,0 +1,30 @@
+///--------------------------------------------------------------------------///
+
+@import 'type';
+
+///
+/// @method types
+/// get the type of each argument, returned as list of strings
+/// @param var {any} the var to get type-of
+/// @param [against] {string} what the var type-of should be
+/// @return result {string|boolean}
+/// @uses compare
+///
+
+@function types( $vars... ){
+  $r: ();
+  @each $v in $vars {
+    $r: append( $r, type($v) );
+  }  
+  @return $r;
+}
+
+///--------------------------------------------------------------------------///
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+  @debug 'types works: #{ types( true, 1 ) == ( bool number ) }';
+}
+
+///--------------------------------------------------------------------------///

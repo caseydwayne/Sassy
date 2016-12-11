@@ -1,0 +1,46 @@
+///--------------------------------------------------------------------------///
+
+///
+/// @method apply
+/// similar to JS apply, accepts a method and an array (list) of arguments
+/// 
+
+@function apply( $method, $args... ){
+  
+  $l: length($args);
+  $r: null;
+  //@debug 'found #{$l} args';
+  
+  //handle single arg
+  @if $l == 1 {
+    //@debug 'calling with single arg';
+    
+    //get arg
+    $a: nth( $args, 1 );
+    
+    //@debug type-of( $a );
+    
+    //if list, pass as arglist
+    @if type-of( $a ) == list {
+      //!!! IF YOU SEE AN ERROR, your IDE is lying to you
+      $r: call( $method, $a... );    
+    } @else {
+      //else call with single param
+      $r: call( $method, $a )
+    }
+  } @else {
+    //@debug 'calling with arglist';
+    //call with arglist if multiple 
+    $r: call( $method, $args );
+    //@debug $method + ' returned '+ $r;
+  }
+  
+  @return $r;
+  
+}
+
+///--------------------------------------------------------------------------///
+
+/// inline debugging is too messy for apply()
+
+///--------------------------------------------------------------------------///

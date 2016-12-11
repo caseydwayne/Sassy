@@ -1,0 +1,67 @@
+///--------------------------------------------------------------------------///
+
+@import 'has', 'compare';
+
+///--------------------------------------------------------------------------///
+
+@function str-contains( $s, $ss ){
+  $c: str-index( $s, $ss );  
+  @return $c != null;
+}
+
+@function list-contains( $list, $value ){
+  $c: false;
+  @each $item in $list { @if compare( $item, $value ) { $c: true; } }
+  @return $c;
+}
+
+///--------------------------------------------------------------------------///
+
+$handlers: (
+  list: list-contains,
+  string: str-contains,
+  map: has
+);
+
+///--------------------------------------------------------------------------///
+
+
+/// 
+/// @method contains
+/// checks if an item contains a value
+/// @uses compare
+/// 
+
+@function contains( $item, $value ) {
+  $r: false;
+  $t: type-of( $item );
+  $h: has( $handlers, $t, true );  
+  @if $h {
+    //call appropriate contains handler for type
+    $r: call( $h, $item, $value )
+  }
+  @return $r;
+}
+
+///--------------------------------------------------------------------------///
+
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+  
+  $a: string;  
+  $r: contains( $a, ring );
+  @debug 'contains [string]: #{ $r }';
+  
+ 
+  $a: ( a, list );
+  $r: contains( $a, list );
+  @debug 'contains [list]: #{ $r }';
+    
+  $a: ( a: map );
+  $r: contains( $a, a );
+  @debug 'contains [map]: #{ $r }';
+  
+}
+///--------------------------------------------------------------------------///

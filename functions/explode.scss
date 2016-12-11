@@ -1,0 +1,53 @@
+///--------------------------------------------------------------------------///
+
+///
+/// @method explode
+/// breaks a string into a list, separated at matches to the delimiter character
+/// @param string {string} the string to explode
+/// @param [delimiter='-'] {string} the delimiter (single character to break at)
+/// @source http://www.justinnavarro.net/blog2/2015/02/08/sass-explode-function/
+///
+
+@function explode( $string, $dem:'-' ) {
+
+  $list: ();
+  $sum: str-length($string);
+
+  @for $i from 1 through $sum {
+    
+    $str: str-index($string,$dem);
+
+    @if str-length($string) >= 1 and $str == null {
+        $list: append($list,$string);
+        $string: '';
+    }
+
+    @if type-of($str) == number {
+        $each: str-slice($string,0,($str - 1));
+        $list: append($list,$each);
+        $string: str-slice($string,($str + 1), $sum);
+    }
+
+  }
+
+  @return $list;
+
+}
+
+///--------------------------------------------------------------------------///
+
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+  
+  $a: hyphen-string;  
+  $r: explode( $a );
+  @debug 'explode [ default: - ]: #{ $r == ( hyphen string ) }';
+ 
+  $a: 'stack.string';
+  $r: explode( $a, '.' );
+  @debug 'explode [ custom: . ]: #{ $r == ( stack string ) }';
+ 
+}
+///--------------------------------------------------------------------------///

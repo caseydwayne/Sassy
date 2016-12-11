@@ -1,0 +1,87 @@
+///--------------------------------------------------------------------------///
+
+@import 
+  '../functions/apply',
+  '../functions/compare',
+  '../functions/type',
+  'testmap'
+;
+
+///
+/// SASS/SCSS Unit Testing
+/// apply, test, result
+/// @use $verdict: test( $method_name, $arguments, $expect: true )
+/// @echo with @include result( $name, $verdict )
+/// @requires apply
+///
+
+@function test( $args... ){
+  
+  //setup
+  $a: $args;  
+  $l: length( $a );
+  $v: null;
+  $n: 'name';
+  $lock: 'lock123';  
+  $ma: $lock;
+  $r: $lock;
+  $e: true;
+  
+  //resolve arguments  
+  @if $l > 1 {
+    //first is name
+    $n: nth( $a, 1 );    
+    $s: nth( $a, 2 );
+    //second is boolean:result or argument(s)
+    @if type( $s, 'bool' ) { $r: $s } 
+    @else { $ma: $s; $r: apply( $n, $s ) };
+    @if $l > 2 {
+      //third is the expect (if provided)
+      $e: nth( $a, 3 );      
+    }
+    @if $l > 3 {
+      $f: nth( $a, 4 );
+      @if type( $f, string ){ 
+        @debug 'found variation: #{$f}';
+        $v: $f;
+      }
+    }
+  }
+  
+  //toss if no result set
+  @if $r == $lock { @error 'test requires at least 2 arguments!' }
+  
+  //get types
+  $te: type($e);
+  $tr: type($r);
+  
+  $ts: false;
+  @if $ma != $lock {
+    $ts: types( $ma );
+  }
+  
+  //add variation
+  $n: if( $v == null, '#{$n}( #{$ts} )', '#{$n} [#{$v}]}' );
+  
+  //compare then return verdict
+  $verdict: false;
+  @if compare( $e, $r ) { 
+    $verdict: true;     
+  }
+  @else {
+    @debug 'Test for #${$n} failed';
+    //@if $tr == map { $r: print( $r ); }    
+    //@if $te == map { $e: print( $e ); }
+    $verdict: 'expected (#{$te}) #{$e}, received (#{$tr}) #{$r}';     
+  }  
+  
+  $test: _testmap( $n, $r, $e, $verdict );
+  
+  @return $test;
+  
+};
+
+
+//@debug 'test(standard): #{ test( generic, true, true ) }';
+//@debug 'test(variation): #{ test( generic, true, true, variation ) }';
+///--------------------------------------------------------------------------///

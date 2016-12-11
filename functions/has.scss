@@ -1,0 +1,33 @@
+///
+/// @method has
+/// determines if a map has a key. optionally returns it 
+/// @param map {map}
+/// @param key {string}
+/// @param [return=false] {boolean} return if found
+/// @return value || false
+///
+
+@function has( $map, $key, $return: false, $default: false ){
+  @if type-of( $map ) == map {
+    @if map-has-key( $map, $key ) {
+      @if $return { @return map-get( $map, $key ) }
+      @else { @return true; }
+    }
+  }
+  @return $default;
+}
+
+///--------------------------------------------------------------------------///
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+  $m: ( a: map );
+  @debug 'has works: #{ has( $m, a ) }';
+  $r: has( $m, a, true ) == map;
+  @debug 'has return works: #{ $r }';
+  $r: has( $m, b, true, null );
+  @debug 'has default works: #{ $r == null }';
+}
+
+///--------------------------------------------------------------------------///

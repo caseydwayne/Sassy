@@ -1,0 +1,27 @@
+///
+/// @method add
+/// accepts a map, adds a key:value pair and returns the merged map
+/// (essentially just map-merge with the 2nd map made for you )
+///
+
+@function add( $map, $key, $val ){   
+  $um: map-merge( $map, ( #{$key}: $val ) ); 
+  @return $um; 
+}
+
+///--------------------------------------------------------------------------///
+
+@import 'print';
+
+$_DEBUG: true;
+
+@if $_DEBUG {  
+  
+  $m: ( a: map );
+  $r: add( $m, b, 2 );  
+  $x: print( $r );
+  //$h: map-has-key( $m, b );
+  @debug 'add works: #{$x}';
+}
+
+///--------------------------------------------------------------------------///
