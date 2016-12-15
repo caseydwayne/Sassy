@@ -10,8 +10,8 @@
 /// @requires apply
 ///
 
-@function testv( $variation, $name, $result, $expect: true ){
-  @return test( $name, $result, $expect, $variation );
+@function testv( $variation, $test... ){
+  @return test( $name, $test );
 };
 
 ///--------------------------------------------------------------------------///

@@ -6,7 +6,7 @@ $n: print;
 $a: ( a: generic, map: here );
 $e: '( a: generic, map: here )';
 $t: test( $n, $a, $e );
-@include result( $n, $t );
+@include result( $t );
 
 
 ///--------------------------------------------------------------------------///

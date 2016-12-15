@@ -1,0 +1,98 @@
+///--------------------------------------------------------------------------///
+
+@import
+  'has',
+  'contains',
+  'explode',
+  'compare'
+;
+
+///--------------------------------------------------------------------------///
+
+/// @method str-last
+ // get last character of a string
+ // @param {string} string
+ // @return {string} last character
+ ///
+
+@function str-last( $string, $n: 1 ){ 
+  @return str-slice( $string, -$n );
+}
+
+@function list-last( $l, $n: 1 ){
+  @return nth( $l, length($l) );
+}
+
+@function map-last( $m, $n ){
+  @return 'map-last coming soon!';
+}
+
+///--------------------------------------------------------------------------///
+
+@function last-word( $string, $delim: '-' ){
+  $l: explode( $string, $delim );
+  @return nth( $l, length($l) );
+}
+
+///--------------------------------------------------------------------------///
+
+@function last-char( $string, $each: false, $delim: '-' ){
+  $s: '';
+  @if $each == true {
+    $l: explode( $string, $delim );
+    @each $w in $l {      
+      $s: $s + str-last( $w );
+    }
+  }
+  @else {
+    $s: str-last( $string );
+  }
+  @return $s;
+}
+
+$sassy_last_handlers: (
+  string: str-last,
+  list: list-last,
+  map: map-last
+);
+
+@function last( $x, $n: 1, $c: null ){
+  $t: type($x);
+  $h: has( $sassy_last_handlers, $t, true );
+  $r: null;
+  @if type($h) != string {
+    @error 'No last() handler found for #{$t}';
+  } @else {
+    $r: call( $h, $x, $n );
+    @if $c { $r: compare( $r, $c ) }
+  }
+  @return $r;  
+}
+
+///--------------------------------------------------------------------------///
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+  
+  $s: string;
+  
+  $n: str-last;
+  $r: call( $n, $s );
+  $e: g;
+  @debug '#{$n} works? #{ $r == $e or $r }';  
+  
+  $s: hyphen-word;
+  $n: last-word;
+  $r: call( $n, $s );
+  $e: word;
+  @debug '#{$n} works? #{ $r == $e or $r }';
+    
+  $n: last-char;
+  $r: call( $n, $s, true );
+  $e: nd;
+  @debug '#{$n} [each word] works? #{ $r == $e or $r }';
+  
+}
+
+///--------------------------------------------------------------------------///

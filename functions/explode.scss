@@ -8,14 +8,16 @@
 /// @source http://www.justinnavarro.net/blog2/2015/02/08/sass-explode-function/
 ///
 
-@function explode( $string, $dem:'-' ) {
+@function explode( $string, $delim:'-' ) {
 
   $list: ();
   $sum: str-length($string);
-
+  
+  @if type-of( $delim ) != string { $delim: '-'; }
+  
   @for $i from 1 through $sum {
     
-    $str: str-index($string,$dem);
+    $str: str-index( $string, $delim );
 
     @if str-length($string) >= 1 and $str == null {
         $list: append($list,$string);

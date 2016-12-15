@@ -13,6 +13,11 @@
 
 @function types( $vars... ){
   $r: ();
+  //if a single var, assume it is vars as map or list
+  @if length( $vars ) == 1 {
+    $vars: nth( $vars, 1 );
+  }
+  //add each var's type to typelist ($r)
   @each $v in $vars {
     $r: append( $r, type($v) );
   }  
@@ -25,6 +30,7 @@ $_DEBUG: false;
 
 @if $_DEBUG {
   @debug 'types works: #{ types( true, 1 ) == ( bool number ) }';
+  @debug 'types [single list] works: #{ types( ( true, 1 ) ) == ( bool number ) }';
 }
 
 ///--------------------------------------------------------------------------///

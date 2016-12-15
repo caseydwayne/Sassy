@@ -15,9 +15,11 @@
 
 @function decrease( $map, $key: 1, $x: 1 ){
   @if type-of( $key ) == number {
-    @return increase( $map, -$key );  
+    $n: abs($key);
+    @return increase( $map, -$n );
   } @else {
-    @return increase( $map, $key, -$x );
+    $n: abs($x);
+    @return increase( $map, $key, -$n );
   }
 }
 

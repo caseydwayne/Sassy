@@ -1,8 +1,11 @@
 ///--------------------------------------------------------------------------///
 
-@import
+@import 
   'type',
-  'contains';
+  'has'
+;
+
+@import 'print'; //enable if debugging
 
 ///--------------------------------------------------------------------------///
 
@@ -16,17 +19,10 @@ $_DEBUG: false;
 /// @return value {any} the target map/key:value
 ///
 
-@function get( $map, $key, $update: false, $value: null ){
+@function get( $map, $key ){
   
-  $m: $map; 
-  $v: $value;
-  $original: $map;
-  $_maps: 1;
-  $maps: ();
-  
-  @if $update {
-    $maps: map-merge( $maps, ( map#{$_maps}: $m ) );
-  }
+  //this will be changed internally
+  $m: $map;  
   
   //check key type
   $kt: type( $key );
@@ -46,7 +42,7 @@ $_DEBUG: false;
       
       @if $_DEBUG { @debug 'searching for key #{$i}: #{$k}'; }
       
-      //keep digging until target map/key
+      //keep digging until target key/map is found
       $h: has( $m, $k );
       
       @if $h {
@@ -59,64 +55,43 @@ $_DEBUG: false;
         @if type( $x, map ) {
           @if $_DEBUG { @debug 'key #{$k} is map, going recursive'; }
           $m: $x;
-          @if $update {
-            @if $_DEBUG { @debug 'm is #{ type-of( $m ) }'; }
-            $maps: map-merge( $maps, ( map#{$_maps}: $m ) );
-            $_maps: $_maps + 1;
-          }
         }
+        
         //if property is not map
         @else {
-          @if $_DEBUG { @debug 'checking if last'; }
+          
+          @if $_DEBUG { @debug 'checking if last property'; }
+          
           //check if last
           @if( $i == $l ){ 
-            @if $_DEBUG { @debug 'is last'; }
+            
+            @if $_DEBUG { @debug 'is last property'; }
+            
             //assign map and key for map-merge
             $map: $m;
             $key: $k; 
-          }
-        }        
-      } 
+            
+          } //end if last         
+        } //end !map       
+      } //end has key
+      
       @else {
-        @error 'get( $map, $key ) there is no key #{$k} in map #{$i} ';
+        @error 'get( $map, $key ) there is no key #{$k} in map #{$i}.. #{print($m)} ';
       }
+      
     }
   }
-  
-  @if $update {
-   $l: length( $maps );
-   $i: $l;
-   $last: null;
-   //recreate each map from last to first
-   @while $l >= $i {
-     @if $_DEBUG { @debug 'processing #{$i} of #{$l}'; }
-     $mk: map#{$i};
-     @if $_DEBUG { @debug 'getting #{$mk}'; }
-     $x: map-get( $maps, $mk );
-     @if type( $x ) != map {
-       @warn 'update could not fetch #{$mk}';
-     }
-     @if $_DEBUG { @debug 'x is #{ type-of( $x ) }'; }
-     //if last in maps
-     @if $i == $l {
-       //add key:value to map
-       $last: map-merge( $x, ( $key: $value ) );
-     } @else {
-       //update map with previous
-       $last: map-merge( $x, $last )
-     }     
-     $i: $i - 1;
-     //return final map
-     @if $i == 0 { @return $last; }
-   }  
-  }
-  @else {
-    $v: map-get( $map, $key );
-  }
-  
+
+///--------------------------------------------------------------------------///
+
+  @if $_DEBUG { @debug 'returning get request'; }
+
+  $v: map-get( $map, $key );
+    
   @return $v;
   
 }
+
 ///--------------------------------------------------------------------------///
 
 @if $_DEBUG {
@@ -127,18 +102,7 @@ $_DEBUG: false;
   
   $m2: ( a: ( b: deepmap ) );
   $r: get( $m2, ( a, b ) ) == deepmap;
-  @debug 'get [deep] works: #{ $r }';  
-  	  
-  $r: get( $m1, a, true, newvar );
-  $r: map-get( $r, a ) == newvar;
-  @debug 'get [update] works: #{ $r }';
-    
-  $r: get( $m2, a b, true, newvar );
-  $r: map-get( $r, b ) == newvar;
-  @debug 'get [update deep] works: #{ $r }';
-  
-  $r: get( $m2, a b c );
-  @debug 'get [fake key] works: #{ $r }';
+  @debug 'get [deep] works: #{ $r }';    	  
   
 }
 

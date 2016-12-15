@@ -1,7 +1,7 @@
 @import
-  '../functions/has',
   '../functions/increase',
-  '../functions/update';
+  '../functions/set';
+  
 ///--------------------------------------------------------------------------///
 
 $_debug: (
@@ -10,39 +10,33 @@ $_debug: (
  failed: (),
   total: 0,
 verdict: false
-);
+) !global;
 
 
 ///--------------------------------------------------------------------------///
 
 //update global $_debug map
-@function _update( $key, $val ){   
-  $_debug: update( $_debug, $key, $val ) !global; 
+@function _update( $key, $val: null ){ 
+  //update dmap as needed
+  $_debug: if( type( $key, map ), $key, set( $_debug, $key, $val ) );   
+  //update the global
+  $_debug: $_debug !global;
   @return $_debug; 
-}
-
-/// adds a new test
-@function _add( $test ){
-  //up the total
-  $i: _increase();
-  //add test to tests
-  $tests: _update( tests, $test );
-  $v: _get( verdict );
-  
-  @return $test;
 }
 
 ///--------------------------------------------------------------------------///
 
 //gets a key's value
 @function _get( $key ){  
-  @return has( $_debug, $key, true );
+  @return get( $_debug, $key );
 }
 
-//increases the total
-@function _increase(){
-  $i: increase( $_debug, total );  
-  @return $i;
+//increases a counter by 1
+@function _increase( $c ){
+  $m: increase( $_debug, $c );
+  $x: _update( $m );
+  //@debug '$c is now #{ _get( $c ) }';
+  @return $x;
 }
 
 //pushes a value into a list
@@ -51,6 +45,20 @@ verdict: false
   $r: _update( $list, append( $l, $value ) );
   @return $r;
 }
+
 ///--------------------------------------------------------------------------///
 
+/// adds a new test
+@function _add( $test ){
+  //up the total
+  $i: _increase( total );
+  //add test to tests
+  $tests: _push( tests, $test );
+  $v: get( $test, verdict );
+  $t: if( $v == true, passed, failed );
+  //add to appropriate array
+  $x: _push( $t, $test );
+  @return $test;
+}
 
+///--------------------------------------------------------------------------///

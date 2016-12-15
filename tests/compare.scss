@@ -3,13 +3,21 @@
 /// compare tests
 $n: compare;
 
-$v: numbers;
 $a: ( 1, 1 );
-$t: test( $n, $a, true, $v );
+$t: test( $n, $a );
 @include result( $t );
 
-//@note there's a problem with maps and apply...
-//$t: testv( $v, $n, $a );
-//@include result( $n, $t );
+$a: ( abc, abc );
+$t: test( $n, $a );
+@include result( $t );
+
+$a: ( ( a b c ), ( a b c ) );
+$t: test( $n, $a );
+@include result( $t );
+
+$a: ( ( a: map ), ( a: map ) );
+$t: test( $n, $a );
+@include result( $t );
+
 
 ///--------------------------------------------------------------------------///

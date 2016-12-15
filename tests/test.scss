@@ -1,11 +1,12 @@
 ///--------------------------------------------------------------------------///
 
-//name test
-$n: types;
-$a: ( true, 1 );
-$e: bool number;
+/// thru test
+$n: thru;
+
+$a: 'a string';
+$e: 'Sassy is here! Received 1 argument(s)';
+
 $t: test( $n, $a, $e );
 @include result( $t );
-
 
 ///--------------------------------------------------------------------------///

@@ -1,0 +1,46 @@
+///--------------------------------------------------------------------------///
+
+@import 'set';
+  
+///--------------------------------------------------------------------------///
+
+///
+/// @method pluck
+/// pulls a key from each map provided, returns in a list
+/// @param key {string|list} the key that all maps provided share
+/// @rest map {map} the map to pluck with
+/// @return plucked {list} the values matching keys in maps provided, sequentially
+
+@function pluck( $key, $maps... ){
+  
+  $p: ();  
+  
+  @each $map in $maps {
+    
+    @if type-of( $map ) != map {
+      @error 'pluck( $keys, $maps... ) requires valid maps after key(s)!'
+    }
+  
+    $v: get( $map, $key );
+    $p: append( $p, $v );
+    
+  }
+    
+  @return $p;
+
+}
+
+///--------------------------------------------------------------------------///
+
+$_DEBUG: false;
+
+@if $_DEBUG {
+
+  $a: ( ( a: 1 ), ( a: 2 ), ( a: 3 ) );
+  $r: pluck( a, $a... );
+  $e: 1 2 3;  
+  @debug 'pluck works: #{ $r == $e }';  
+  
+}
+
+///--------------------------------------------------------------------------///

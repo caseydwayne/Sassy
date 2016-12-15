@@ -1,0 +1,39 @@
+///--------------------------------------------------------------------------///
+
+@import 'get';
+
+///--------------------------------------------------------------------------///
+
+///
+/// @method set
+/// updates a (deep) map, returning the updated (deep) map
+/// @param map {map} the map
+/// @param key {string|list} the key or key list 
+/// @param val {any} the value to add/update final map/key with
+/// @return set_map {map} the updated map
+///
+
+@function set( $map, $key, $val ){
+  @return get( $map, $key, true, $val );  
+}
+
+///--------------------------------------------------------------------------///
+@import 'print';
+$_DEBUG: 1;
+
+@if $_DEBUG {
+
+  $m1: ( a: map, b: value );
+  //$r: set( $m1, a, newvar );
+  //$r: get( $r, a ) == newvar;
+  //@debug 'set works: #{ $r }';
+
+  $m2: ( a: ( b: deepmap ) );
+  $r: set( $m2, a b, newvar ); 
+  /* deep update returned #{print($r)} */
+  $r: get( $r, a b ) == newvar;
+  @debug 'set [deep] works: #{ $r }';
+  
+}
+
+///--------------------------------------------------------------------------///

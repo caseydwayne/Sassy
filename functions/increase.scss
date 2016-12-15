@@ -14,29 +14,35 @@
 /// @return updated {map|number} the updated map or number
 ///
 
+$_DEBUG: false;
+
 @function increase( $map, $key:1, $x:1  ){
-  @if type( $map, map ){
-    $n: null;
-    @if type( $key, string ) {
-      $n: map-get( $map, $key );
-    } @else{
-      $n: get( $map, $key ); 
-    }
-    
-    @if type( $n, number ) {
-      $v: $n + $x;
-      @return set( $map, $key, $v );
-    }
-  }
+  
+  //increase a regular number
   @if type( $map, number ) {
     @return $map + $key;
   }
+  
+  //increase a number inside a map
+  @if type( $map, map ){    
+    
+    $n: get( $map, $key );          
+    
+    @if type( $n, number ) {      
+      $v: $n + $x;
+      @if $_DEBUG { @debug 'changing #{$n} by #{$x}'; }
+      @return set( $map, $key, $v );
+    } @else {
+      @warn 'the key provided to increase did not lead to a number...';
+    }
+  }
+  
+  //toss if still here
   @error 'increase only works on numbers (or a map/keystring leading to a number value)';
+  
 }
 
 ///--------------------------------------------------------------------------///
-
-$_DEBUG: false;
 
 @if $_DEBUG {
   $c: 0;

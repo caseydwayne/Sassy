@@ -5,13 +5,13 @@ $n: type;
 
 $a: 'a string';
 $e: 'string'; 
-$t: testv( 'standard', $n, $a, $e );
-@include result( $n, $t );
+$t: test( $n, $a, $e );
+@include result( $t );
 
 
 $a: ( $a, $e );
-$t: testv( 'against', $n, $a );
-@include result( $n, $t );
+$t: test( $n, $a, true, against );
+@include result( $t );
 
 
 ///--------------------------------------------------------------------------///

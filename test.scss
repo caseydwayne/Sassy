@@ -1,29 +1,35 @@
 ///--------------------------------------------------------------------------///
 
 @import 
+  'functions', 
+  'debug';
 
-  'functions',
+@include start('sassy');
   
-  'debug',
+@import
   
   //tests are in order of dependencies
   
-  'tests/compare'
+  //no dependencies
+  'tests/has',
+  'tests/compare',
+  'tests/explode',
+  'tests/thru', // no need to test
+  //'tests/print',
+  //'tests/apply',
   
-  //'tests/type'
-  //'tests/types'
-  
-  //'tests/print',    
-  //'tests/apply'
-  //'tests/update'
-  ;
-  
-  //'tests/contains',  
-  //'tests/equal',
-  //'tests/explode';
-  
-  //'tests/explode'
-  
-  
-  
+  //each depends on at least 1 fn established above it
+  'tests/contains',
+  'tests/type',
+  'tests/types',
+  'tests/get',
+  'tests/set',
+  'tests/increase',
+  'tests/decrease',
+  'tests/first',
+  'tests/last'
+;  
+
+@include complete();
+
 ///--------------------------------------------------------------------------///

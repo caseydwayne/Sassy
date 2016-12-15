@@ -1,0 +1,30 @@
+///--------------------------------------------------------------------------///
+
+$_DEBUG: false;
+
+@mixin complete(){
+  $m: 'calculating results...';  
+  $p: _get( passed );
+  $f: _get( failed );
+  $t: _get( total );  
+  $l: length( $p );
+  $s: compare( $l, $t );
+  
+  @if $_DEBUG { 
+    @debug 'passed: #{$l}, total: #{$t}, equal: #{$s}' 
+  }
+  
+  @if $s {
+    $m: 'All tests passed!'
+  }
+  @else {
+    $n: length( $f );
+    //@debug ($f);
+    //$failed: pluck( name, $f );
+    $s: implode( $f );
+    $m: '#{$n} tests failed... #{ $s }';
+  }
+  /* #{$m} */
+}
+
+///--------------------------------------------------------------------------///

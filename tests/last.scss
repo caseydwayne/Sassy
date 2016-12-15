@@ -1,0 +1,29 @@
+///--------------------------------------------------------------------------///
+
+  
+  $n: str-last;  
+  $a: string;
+  $e: g;
+  $t: test( $n, $a, $e );
+  @include result( $t );
+  
+    
+  $n: last-word;  
+  $a: hyphen-word;
+  $e: word;
+  $t: test( $n, $a, $e );
+  @include result( $t );
+    
+  $n: last-char;
+  $a: ( $a, true );
+  $e: nd;
+  $t: test( $n, $a, $e );
+  @include result( $t );
+
+
+  //$n: last;
+  //$r: call( $n, $s, 'str' );
+  //$e: hw;
+  //@debug '#{$n} [each word] works? #{ $r == $e or $r }';
+  
+///--------------------------------------------------------------------------///

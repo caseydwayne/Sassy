@@ -1,15 +1,29 @@
 ///--------------------------------------------------------------------------///
 
 @import 
+  //no dependencies
+  'functions/has',
   'functions/compare',
-  'functions/type',
-  'functions/types'
-  ;
-  //'functions/apply',
-  //'functions/compare',
-  //'functions/has',
-  //'functions/contains',
-  //'functions/explode';
+  'functions/explode',
+  'functions/implode',
+  'functions/thru',
+  'functions/print',
+  'functions/apply',
+  'functions/pluck',
   
-
+  //each depends on at least 1 fn established above it
+  'functions/contains',
+  'functions/type',
+  'functions/types',
+  'functions/get',
+  'functions/set',
+  'functions/increase',
+  'functions/decrease',
+  
+  //v1.1 additions
+  'functions/first',
+  'functions/last'
+  
+;
+  
 ///--------------------------------------------------------------------------///
