@@ -55,10 +55,8 @@
 ///--------------------------------------------------------------------------///
 
 
-$_DEBUG: false;
-
-@if $_DEBUG {
-  
+@if false {
+   
   $a: list of things;
   $r: implode( $a );
   $e: 'list, of, things';  

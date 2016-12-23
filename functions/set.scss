@@ -1,7 +1,7 @@
 ///--------------------------------------------------------------------------///
 
 @import 'get';
-@import 'print'; //enable if debugging
+//@import 'print'; //enable if debugging
 
 ///--------------------------------------------------------------------------///
 
@@ -14,12 +14,16 @@
 /// @return set_map {map} the updated map
 ///
 
-$_DEBUG: false;
+
 
 ///--------------------------------------------------------------------------///
 
 @function set( $map, $key, $value: null ){
 
+///--------------------------------------------------------------------------///
+
+  $_DEBUG: false;
+  
 ///--------------------------------------------------------------------------///
     
   //internal map variable (changes often)
@@ -86,9 +90,15 @@ $_DEBUG: false;
             $key: $k; 
           } //end if last         
         } //end !map       
-      } //end has key      @else {
+      } //end has key
       @else {
-        @error 'set( $map, $key, $value ) there is no key #{$k} in map #{$i}.. #{print($m)}';
+        @debug '#{$i} of #{$l}';
+        //add key if it doesn't exist and this is last in keys
+        @if $i == $l {
+          @return map-merge( $m, ( #{$k}: $value ) )
+        } @else {
+          @error 'set( $map, $key, $value ) there is no key #{$k} in map #{$i}.. #{print($m)}';
+        }
       }
     }
   }
@@ -165,7 +175,7 @@ $_DEBUG: false;
 
 ///--------------------------------------------------------------------------///
 
-@if $_DEBUG {
+@if false {
 
   $m1: ( a: map, b: value );
   $r: set( $m1, a, newvar );

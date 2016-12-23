@@ -1,7 +1,5 @@
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: true;
-
 ///
 /// @method apply
 /// similar to JS apply, accepts a method and an array (list) of arguments
@@ -9,7 +7,7 @@ $_DEBUG: true;
 
 @function apply( $method, $args... ){
   
-  //$_DEBUG: true;  
+  $_DEBUG: false;
   
   $l: length($args);
   $r: null;

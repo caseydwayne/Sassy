@@ -2,6 +2,8 @@
 
 @import 'type';
 
+///--------------------------------------------------------------------------///
+
 ///
 /// @method types
 /// get the type of each argument, returned as list of strings
@@ -10,6 +12,8 @@
 /// @return result {string|boolean}
 /// @uses compare
 ///
+
+///--------------------------------------------------------------------------///
 
 @function types( $vars... ){
   $r: ();
@@ -24,13 +28,29 @@
   @return $r;
 }
 
+//checks that all types are the same
+@function types-same( $vars... ){
+  $t: types( $vars );
+  $l: length( $t );
+  $f: nth( $t, 1 );
+  $s: true;
+  @for $i from 2 through $l {
+    @if $s and nth( $t, 1 ) != $f { $s: false; }
+  }
+  @return $s;
+}
+
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
+@if false {
 
-@if $_DEBUG {
   @debug 'types works: #{ types( true, 1 ) == ( bool number ) }';
   @debug 'types [single list] works: #{ types( ( true, 1 ) ) == ( bool number ) }';
+
+  $n: types-same;
+  $a: ( lovely coconuts );
+  $r: call( $n, $a );
+  @debug '#{$n} works? #{$r}';
 }
 
 ///--------------------------------------------------------------------------///

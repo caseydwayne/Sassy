@@ -15,6 +15,25 @@
   @return $c;
 }
 
+@function list-contains-any( $list, $v... ){
+  @if length( $v ) == 0 { @return false; }
+  $c: ();
+  @each $i in $list {
+    $r: list-contains( $list, $i );
+    @if $r { $c: append( $c, $i ); }
+  }
+  @return if( length( $c ), $c, false );
+}
+
+@function list-contains-all( $list, $v... ){
+  @if length( $v ) == 0 { @return false; }
+  @each $i in $list {
+    $r: list-contains( $list, $i );
+    @if $r != true { @return false; }
+  }
+  @return true;
+}
+
 ///--------------------------------------------------------------------------///
 
 $handlers: (
@@ -45,10 +64,7 @@ $handlers: (
 
 ///--------------------------------------------------------------------------///
 
-
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
   
   $a: string;  
   $r: contains( $a, ring );

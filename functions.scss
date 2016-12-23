@@ -9,7 +9,9 @@
   'functions/thru',
   'functions/print',
   'functions/apply',
-  'functions/pluck',
+  //v1.2
+  'functions/pluck',  
+  'functions/each',
   
   //each depends on at least 1 fn established above it
   'functions/contains',
@@ -22,7 +24,12 @@
   
   //v1.1 additions
   'functions/first',
-  'functions/last'
+  'functions/last',
+  
+  //v1.3 addons
+  'functions/reverse',
+  'functions/pop',
+  'functions/split'
   
 ;
   

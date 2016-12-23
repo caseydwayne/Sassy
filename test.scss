@@ -5,7 +5,8 @@
   'debug';
 
 @include start('sassy');
-  
+
+
 @import
   
   //tests are in order of dependencies
@@ -17,7 +18,7 @@
   'tests/thru', // no need to test
   //'tests/print',
   //'tests/apply',
-  
+  //'tests/each',
   //each depends on at least 1 fn established above it
   'tests/contains',
   'tests/type',
@@ -27,7 +28,9 @@
   'tests/increase',
   'tests/decrease',
   'tests/first',
-  'tests/last'
+  'tests/last',
+  //'tests/pop',
+  'tests/reverse'
 ;  
 
 @include complete();

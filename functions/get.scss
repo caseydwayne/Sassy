@@ -5,11 +5,9 @@
   'has'
 ;
 
-@import 'print'; //enable if debugging
+//@import 'print'; //enable if debugging
 
 ///--------------------------------------------------------------------------///
-
-$_DEBUG: false;
 
 ///
 /// @method get
@@ -20,6 +18,8 @@ $_DEBUG: false;
 ///
 
 @function get( $map, $key ){
+
+  $_DEBUG: false;  
   
   //this will be changed internally
   $m: $map;  
@@ -94,7 +94,7 @@ $_DEBUG: false;
 
 ///--------------------------------------------------------------------------///
 
-@if $_DEBUG {
+@if false {
   
   $m1: ( a: map, b: value );
   $r: get( $m1, a ) == map;

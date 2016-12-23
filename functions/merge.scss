@@ -1,0 +1,38 @@
+///--------------------------------------------------------------------------///
+
+@import 'set';
+
+@function sassy-map-merge( $map, $maps... ){
+  @if types-same( $rest ) {  
+    @each $m in $maps {        
+      @each $k, $v in $m {
+        $map: set( $map, $k, $v );
+      }
+    }
+    @return $map;
+  }  
+}
+
+///--------------------------------------------------------------------------///
+
+@function merge( $item, $rest... ){
+  $t: type-of( $item );
+  @if $t == map {
+    @return sassy-map-merge( $item, $rest );
+  }
+}
+
+///--------------------------------------------------------------------------///
+
+@if false {
+
+  $n: merge;
+  $a:( my: map, to: $n );
+  $x: ( with: this );
+  $r: call( $n, $a );
+  $e: ( ( my, to ), ( map, divide ) );
+  @debug '#{$n} works: #{ $r == $e or $r }';  
+  
+}
+
+///--------------------------------------------------------------------------///

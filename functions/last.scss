@@ -4,7 +4,10 @@
   'has',
   'contains',
   'explode',
-  'compare'
+  'compare',
+  'type',
+  'pop',
+  'split'
 ;
 
 ///--------------------------------------------------------------------------///
@@ -15,16 +18,29 @@
  // @return {string} last character
  ///
 
-@function str-last( $string, $n: 1 ){ 
-  @return str-slice( $string, -$n );
+@function str-last( $s, $n: 1 ){  
+  @if type( $s ) != string { @error 'str-last requires a string! ( string, number )'; }
+  @if type( $n, string ) { $n: str-length( $n ); }
+  $l: str-length( $s );
+  @if $n >= $l {
+    @error 'you are trying to get the last #{$n} characters in a string that contains #{$l}. please correct this and try again.';
+  }  
+  @return str-slice( $s, -$n );
 }
 
 @function list-last( $l, $n: 1 ){
-  @return nth( $l, length($l) );
+  @if type( $l ) != list { @error 'list-last requires a list! ( list, number )'; }
+  @if type( $n, list ) { $n: length( $n ); } 
+  $len: length( $l );
+  @if $n >= $l {
+    @error 'you are trying to get the last #{$n} values in a list that contains #{$l}. please correct this and try again.';
+  }
+  @return if( $n > 1, nth( list-pop( $l, $n ), 1 ), nth( $l, $len ) );
 }
 
 @function map-last( $m, $n ){
-  @return 'map-last coming soon!';
+  
+  //@return 'map-last coming soon!';
 }
 
 ///--------------------------------------------------------------------------///
@@ -57,24 +73,29 @@ $sassy_last_handlers: (
 );
 
 @function last( $x, $n: 1, $c: null ){
+  
+  $_DEBUG: false;
+  
   $t: type($x);
   $h: has( $sassy_last_handlers, $t, true );
   $r: null;
+  
   @if type($h) != string {
     @error 'No last() handler found for #{$t}';
   } @else {
     $r: call( $h, $x, $n );
-    @if $c { $r: compare( $r, $c ) }
+    @if type($n) == $t { $c: $n; }
+    @if $_DEBUG { @debug 'comparing \a#{$r} and \a#{$c}'; }
+    @if $c { $r: compare( $r, $c ); }    
   }
   @return $r;  
 }
 
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
   
+  //string tests
   $s: string;
   
   $n: str-last;
@@ -93,6 +114,24 @@ $_DEBUG: false;
   $e: nd;
   @debug '#{$n} [each word] works? #{ $r == $e or $r }';
   
+  $s: string;
+  $n: last;
+  $r: call( $n, $s, 4 );
+  $e: ring;
+  @debug '#{$n} [string, number] works? #{ $r == $e or $r }';
+  $r: call( $n, $s, $r );
+  @debug '#{$n} [string, string] works? #{ $r == $e or $r }';
+  
+  //array (list) tests  
+  $x: things;
+  $a: list of $x;
+  $r: call( $n, $a );
+  $e: $x;
+  @debug '#{$n} [list] works? #{ $r == $e or $r }';
+  
+  $e: ( of $x );
+  $r: call( $n, $a, $e );
+  @debug '#{$n} [list, list] works? #{ $r == $e or $r }';
 }
 
 ///--------------------------------------------------------------------------///

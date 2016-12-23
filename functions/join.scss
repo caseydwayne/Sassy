@@ -1,0 +1,42 @@
+///--------------------------------------------------------------------------///
+
+//
+
+@function str-join( $strings... ){
+  $string: '';  
+  $l: length( $strings );
+  $last: nth( $strings, $l );
+  $space: false;
+  //check for and pull last if boolean (space=last)
+  
+  $l: length( $strings ); //redefined in case boolean popped
+  //join strings with optional spaces between
+  @for $i from 1 through $l {
+    $s: nth( $strings, $i );   
+    @if type( $s, string ){
+      $string: if( $space and $i != $l, $string + ' ' + $s, $string + $s );
+    }
+  }
+  //return joined string
+  @return $string;
+}
+
+@function list-merge( $lists... ){
+  $l: length( $lists );
+  $f: null;
+  $first: true;
+  @if $l {
+    $f: nth( $lists, 1 );
+    @if $l > 1 {
+      @each $l in $lists {
+        @if $first { $first: false }
+        @else {
+          $f: join( $f, $l );
+        }
+      }
+    }
+  }
+  @return $f;
+}
+
+///--------------------------------------------------------------------------///

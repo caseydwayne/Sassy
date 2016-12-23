@@ -1,0 +1,41 @@
+///--------------------------------------------------------------------------///
+
+$LIST_POP_CHEW: "list-pop says you're biting off more than you can chew."
+  + " ensure that your number of arguments is less than the length of the list"
+  + " you are popping.";
+
+$REVERSE_NEEDS_LIST:  'list-reverse requires a list.';
+
+@function list-reverse( $list ){
+
+  @if type-of( $list ) != list {
+    @error '#{$REVERSE_NEEDS_LIST}'
+  }
+
+  $r: ();
+  $l: length( $list );
+  
+  @for $i from 1 through $l {
+    $x: nth( $list, -$i );
+    $r: append( $r, $x );
+  }      
+
+  @return $r;
+      
+}
+
+
+///--------------------------------------------------------------------------///
+
+@if false {
+  
+  $n: list-reverse;
+  $a: ( my list here );
+  $r: call( $n, $a );
+  $e: ( here list my );
+  @debug '#{$n} works: #{ $r == $e or $r }';  
+  
+}
+
+  
+///--------------------------------------------------------------------------///

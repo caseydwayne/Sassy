@@ -19,13 +19,13 @@
 
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
+  
   @debug 'compare number: #{ compare( 1, 1 ) }';
   @debug 'compare string: #{ compare( abc, abc ) }';
   @debug 'compare list: #{ compare( ( a b c ), ( a b c ) ) }';
   @debug 'compare map: #{ compare( ( a: map ), ( a: map ) ) }';
+  
 }
 
 ///--------------------------------------------------------------------------///

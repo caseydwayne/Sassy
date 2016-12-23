@@ -14,9 +14,11 @@
 /// @return updated {map|number} the updated map or number
 ///
 
-$_DEBUG: false;
+///--------------------------------------------------------------------------///
 
 @function increase( $map, $key:1, $x:1  ){
+
+  $_DEBUG: false;
   
   //increase a regular number
   @if type( $map, number ) {
@@ -44,7 +46,7 @@ $_DEBUG: false;
 
 ///--------------------------------------------------------------------------///
 
-@if $_DEBUG {
+@if false {
   $c: 0;
   $r: increase( $c );
   @debug 'increase  works: #{$r==1}';

@@ -46,9 +46,7 @@
 
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
 
   $a: ( a: generic, map: here );
   $e: '( a: generic, map: here )';

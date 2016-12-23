@@ -1,9 +1,71 @@
 ///--------------------------------------------------------------------------///
 
-@function handle( $handlers,  ){
-  $x: 0;
-  @if $i { $x: $i }
-  @return @function(){};
+@import 'type', 'contains', 'has', 'set', 'apply';
+
+///--------------------------------------------------------------------------///
+
+//stores any handlers created via handler()
+$sassy_handlers: ();
+
+$HANDLER_NEEDS_NAME: 'the first param for handler() must be a string. this is the name of the handler.';
+$HANDLER_NEEDS_MAP: 'the second param for handler() must be a map of strings. these strings should lead to functions.';
+
+//creates a handler
+@function handler( $name, $handles, $prefix: null ){
+  
+  @if type( $name ) != string { @error '#{$HANDLER_NEEDS_NAME}'; }  
+  
+  $t: type( $handles );
+  @if $t == map {
+    @if has( $sassy_handlers, $name ) {
+      @warn 'overwriting existing handler: #{$name}';
+    }
+    @if type( $prefix, string ) {
+      @debug 'TODO: add prefix option to handler';
+    }
+    $sassy_handlers: set( $sassy_handlers, $name, $handles );
+  }
+  @else { @error '#{$HANDLER_NEEDS_MAP}'; }
+  @return $name;
 }
+
+///--------------------------------------------------------------------------///
+
+$HANDLE_NOT_FOUND: 'No valid handler found for #{$handle}.'
+  + ' pass a ( string, map ) to handle or register a one via handler( name, handlers ).';
+$HANDLE_NOT_STRING: 'the first param for handle() must be a string that matches a key in the handler map.';
+
+@function handle( $handle, $handlers, $type: false ){
+  
+  $ht: type( $handle );
+  
+  @if $type == false and $ht != string { @error '#{$HANDLE_NOT_STRING}'; }
+  @else {
+    $handle: $ht;
+  }
+  //check for registered handler
+  @if type( $handlers, string ){
+    $h: has( $sassy_handlers, $handle, true );
+    @if $h { $handlers: $h; }
+  }
+  
+  $h: has( $handlers, $handle, true );
+  $r: null;
+  
+  @if type( $h, string ) {
+    @if function-exists( $h ) {
+      $r: apply( $h, $args );
+    } @else {
+      @warn 'the handle #{$handle} was #{$h}, but #{$h} does not appear to be a function...';
+    }
+  } @else { @error '#{$HANDLE_NOT_FOUND}'; }  
+  
+  @return $r;  
+  
+}
+
+///--------------------------------------------------------------------------///
+
+/// too messy for inline debugging
 
 ///--------------------------------------------------------------------------///

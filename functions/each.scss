@@ -1,0 +1,47 @@
+///--------------------------------------------------------------------------///
+
+
+///
+/// @method each
+/// accepts a map or list. processes it through methods and returns
+/// 
+
+@function each ( $thing, $do... ){
+  $t: $thing;
+  $tt: type-of( $t );  
+  $l: length( $thing );
+  $i: 1;
+  @if $tt == map or $tt == list {
+    @each $n, $x in $thing {
+      @if $x == null { $x: $n }
+      @each $m in $do {
+        @if function-exists( $m ){
+          $r: call( $m, $x );
+          $t: if( $tt == map, 
+                set( $t, $n, $r ), 
+                set-nth( $t, $i, $r )
+              ); 
+          $i: $i+1;
+        } @else {
+          @warn 'invalid method supplied to sassy.each... #{$m}';
+        }
+      }
+      
+    }
+  } @else { @warn 'each only works on maps and lists, received #{$tt}'; }
+  @return $t;
+} 
+
+///--------------------------------------------------------------------------///
+
+@function each-test( $x ){
+  @return to-lower-case( $x );
+}
+
+@if false {
+  $r: each( ( A, B, C ), 'each-test' );
+  $e:( a, b, c );
+  @debug 'each works? #{$r == $e or $r }';
+}
+
+///--------------------------------------------------------------------------///

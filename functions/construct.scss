@@ -1,0 +1,32 @@
+///--------------------------------------------------------------------------///
+
+@import 'type';
+
+$CONSTRUCT_SIG: 'construct accepts 3 signatures: a'
+
+///--------------------------------------------------------------------------///
+
+//creates a map of lists/maps by the keys provided as params
+@function construct( $keys... ){
+  $m: ();
+  $l: length( $k );  
+  @if type( nth( $keys, 1 ), list ){  
+   $keys: nth( $keys, 1 );
+   @if $l > 1 and type( nth( $keys, 2 ), list ){
+     //assume presets
+   }
+  }
+  @else {
+    @each $k in $keys {
+      @if type( $k, string ){
+        $m: map-merge( $m, ( #{$k}: () ) ); 
+      } @else
+    }
+  }
+  
+  
+  
+  @return $m;
+}
+
+///--------------------------------------------------------------------------///

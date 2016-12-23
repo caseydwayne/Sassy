@@ -5,51 +5,69 @@
 /// breaks a string into a list, separated at matches to the delimiter character
 /// @param string {string} the string to explode
 /// @param [delimiter='-'] {string} the delimiter (single character to break at)
-/// @source http://www.justinnavarro.net/blog2/2015/02/08/sass-explode-function/
+/// @return exploded {list} string as list broken at delimiter
 ///
 
-@function explode( $string, $delim:'-' ) {
+@function explode( $string, $delim: '-' ) {
 
-  $list: ();
-  $sum: str-length($string);
+  $_DEBUG: false;
   
-  @if type-of( $delim ) != string { $delim: '-'; }
-  
-  @for $i from 1 through $sum {
+  $s: $string;
+  $d: $delim;  
+  $l: ();
+  $x: str-length($s);
+  $i: 1;
+  $z: str-length( $delim );
+  $more: true;
     
-    $str: str-index( $string, $delim );
+  @if type-of( $d ) != string { $d: ''; }
+  
+  @if $_DEBUG { @debug 'exploding #{$s} at #{$d} #{$x}'; }
 
-    @if str-length($string) >= 1 and $str == null {
-        $list: append($list,$string);
-        $string: '';
-    }
-
-    @if type-of($str) == number {
-        $each: str-slice($string,0,($str - 1));
-        $list: append($list,$each);
-        $string: str-slice($string,($str + 1), $sum);
+  @for $i from 1 through $x {
+    $n: str-length( $s );    
+    $p: if( $d == '', 2, str-index( $s, $d ) );
+    @if $p {        
+      $t: str-slice( $s, 0, $p - 1 );
+      $l: append( $l, $t );
+      $s: str-slice( $s, $p + $z, $n );
+      @if $_DEBUG { @debug 'temp is #{$t}, s now #{$s}'; }
+    } @else {        
+      @if $n > 0 {
+        $l: append( $l, $s );
+        $s: '';
+      }
     }
 
   }
-
-  @return $list;
+  
+  @if $_DEBUG { @debug 'returning #{type-of($l) of length( $l )}, #{$l}'; }
+  
+  @return $l;
 
 }
 
 ///--------------------------------------------------------------------------///
 
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
   
-  $a: hyphen-string;  
+  $a: busted;
+  $r: explode( $a, '' );
+  @debug 'explode [ empty: "" ]: #{ $r == ( b u s t e d ) }';
+  
+  $a: hyphen-string;
   $r: explode( $a );
   @debug 'explode [ default: - ]: #{ $r == ( hyphen string ) }';
  
   $a: 'stack.string';
   $r: explode( $a, '.' );
   @debug 'explode [ custom: . ]: #{ $r == ( stack string ) }';
+
+   
+  $a: 'candy';
+  $r: explode( $a, 'and' );
+  @debug 'explode [ long: and ]: #{ $r == ( c y ) }';
  
 }
 ///--------------------------------------------------------------------------///

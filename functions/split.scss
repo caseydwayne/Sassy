@@ -1,0 +1,46 @@
+///--------------------------------------------------------------------------///
+
+@import 'set';
+  
+///--------------------------------------------------------------------------///
+
+///
+/// @method split
+/// separates key:value pairs into ( key, value ) list
+/// @param map {map} the map to split
+/// @return split_map {list} list of key/value pairs
+///
+
+@function split( $map ){
+  
+  $_DEBUG: false;
+  
+  $s: ();  
+  
+  @if type-of( $map ) != map {
+    @error 'sassy-split requires valid maps after key(s)!'
+  }
+  
+  @each $key, $val in $map {
+    @if $_DEBUG { @debug 'splitting into #{$key}, #{$val}'; }
+    //debating support on multi maps...
+    //@if type-of $val == map { @error 'sassy-split does not work on multi-dimensional maps.'; }
+    $s: join( $s, ( $key, $val ) );    
+  }
+    
+  @return $s;
+
+}
+
+///--------------------------------------------------------------------------///
+
+@if false {
+
+  $a:( my: map, to: split );
+  $r: split( $a );
+  $e: ( my, map, to, split );
+  @debug 'split works: #{ $r == $e or $r }';  
+  
+}
+
+///--------------------------------------------------------------------------///

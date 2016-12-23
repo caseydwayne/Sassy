@@ -1,0 +1,85 @@
+///--------------------------------------------------------------------------///
+
+@import 'reverse';
+
+///--------------------------------------------------------------------------///
+
+$LIST_POP_CHEW: "list-pop says you're biting off more than you can chew."
+  + " ensure that your number of arguments is less than the length of the list"
+  + " you are popping.";
+
+$LIST_POP_NOLIST:  'list-pop needs a list.';
+
+///--------------------------------------------------------------------------///
+
+///
+/// @method list-pop
+/// removes the last N from list, returning the value(s) and remainder as separate lists
+/// @param list {list} the list to pop
+/// @param [n=1] {number} the number of values to pop (must be less than length of list!)
+/// @param [reversed=false] {bool} by default, runs popped list thru reverse to maintain previous sequence
+/// @return a list of 2 lists {list of lists}
+/// @note if N is 1, returns the raw value [ i.e., ( value, remainder_list ) ]
+///
+
+@function list-pop( $list, $n: 1, $reversed: false ){
+  
+  $t: type-of( $list );
+  
+  @if  $t == list {
+    
+    $l: length( $list );
+    
+    @if $l >= $n {
+      
+      $a: $list;
+      $p: (); //popped
+      
+      //get the last N values
+      @for $i from 1 through $n {        
+        $x: nth( $a, -$i );
+        $p: append( $p, $x );
+      }
+      
+      //create a new list, minus the ones popped
+      $r: ();
+      @for $i from 1 through $l - $n {
+        $r: append( $r, nth( $a, $i ) )
+      }      
+      
+      //keep original order by reversing the new list
+      @if $reversed == false {
+        $p: list-reverse( $p );
+      }
+      
+      $rt: type-of( $r );
+      @if $rt != list {
+        @warn 'only 1 value is left for remainder...'
+          + 'SASS/SCSS has converted remainder list to type:#{$rt}!';
+      }
+      
+      @return if( length( $p ) == 1, ( nth( $p, 1 ), $r ), ( $p, $r ) );
+      
+    } @else { @error '#{$LIST_POP_CHEW}'; }
+    
+  } @else { @error '#{$LIST_POP_NOLIST}, received #{$t}'; }
+  
+}
+
+///--------------------------------------------------------------------------///
+
+@if false {
+  
+  $n: list-pop;
+  $a: ( my list here );
+  $r: call( $n, $a );  
+  $e: ( here, ( my list ) );
+  @debug '#{$n} works: #{ $r == $e or $r }';  
+      
+  $r: call( $n, $a, 2 );  
+  $e: list here, append( (), my ); //hack because https://github.com/sass/sass/issues/679
+  @debug '#{$n} [multi] works: #{ $r == $e or $r }';  
+  
+}
+
+///--------------------------------------------------------------------------///

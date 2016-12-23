@@ -4,10 +4,11 @@
 /// @param map {map}
 /// @param key {string}
 /// @param [return=false] {boolean} return if found
+/// @param [default=null] {any} the default value in case {return} and nothing found
 /// @return value || false
 ///
 
-@function has( $map, $key, $return: false, $default: false ){
+@function has( $map, $key, $return: false, $default: null ){
   @if type-of( $map ) == map {
     @if map-has-key( $map, $key ) {
       @if $return { @return map-get( $map, $key ) }
@@ -19,15 +20,14 @@
 
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
   $m: ( a: map );
   @debug 'has works: #{ has( $m, a ) }';
   $r: has( $m, a, true ) == map;
   @debug 'has return works: #{ $r }';
-  $r: has( $m, b, true, null );
-  @debug 'has default works: #{ $r == null }';
+  $d: default_value;
+  $r: has( $m, b, true, d );
+  @debug 'has default works: #{ $r == $d }';
 }
 
 ///--------------------------------------------------------------------------///

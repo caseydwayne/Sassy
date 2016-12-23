@@ -1,24 +1,18 @@
 ///--------------------------------------------------------------------------///
 
-/// has test
-$n: has;
+/// pop test
+$n: list-pop;
 
-$m: ( a: map );
-$a: ( $m, a );
-$t: test( $n, $a );
-@include result( $t );
-
-$v: 'return';
-$a: ( $m, a, true );
-$e: map;
+$a: ( my list here );
+$e: ( here, ( my list ) );
 $t: test( $n, $a, $e );
 @include result( $t );
 
-$v: 'default';
-$d: $v+_value;
-$a: ( $m, b, true, $d );
-$e: $d;
+$a: ( $a, 2 );  
+$e: list here, append( (), my ); //hack because https://github.com/sass/sass/issues/679
 $t: test( $n, $a, $e );
 @include result( $t );
+
+
 
 ///--------------------------------------------------------------------------///

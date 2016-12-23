@@ -20,9 +20,7 @@
 
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
-@if $_DEBUG {
+@if false {
   @debug 'type( var ) works? #{ type( true ) == bool }';
   @debug 'type( var, against ) works? #{ type( true, bool ) }';
 }
