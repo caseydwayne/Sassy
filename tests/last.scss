@@ -40,8 +40,7 @@
   $n: last;
   //array (list) tests  
   $x: things;
-  $a: append( (), ( list of $x ) );
-  @debug type-of($a);
+  $a: ( args: ( list of $x ) );  
   $e: $x;
   $t: test( $n, $a, $e );
   @include result( $t );

@@ -27,10 +27,15 @@
   'tests/set',
   'tests/increase',
   'tests/decrease',
-  'tests/first',
-  'tests/last',
-  //'tests/pop',
-  'tests/reverse'
+  //'tests/first',
+  //'tests/last',
+  'tests/pop',
+  'tests/reverse',
+  'tests/split',
+  'tests/divide',
+  //'tests/handle'
+  'tests/merge'
+  //'tests/join',
 ;  
 
 @include complete();

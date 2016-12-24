@@ -1,16 +1,17 @@
 ///--------------------------------------------------------------------------///
 
-/// pop test
-$n: list-pop;
+/// construct tests
 
-$x: ( my list here );
-$a: ( args: $x );
-$e: ( here, ( my list ) );
+$n: construct;
+$k: ( args: ( my, keys ) );
+$a: $k;
+$e: ( my: (), keys: () );  
 $t: test( $n, $a, $e );
 @include result( $t );
 
-$a: ( $x, 2 );  
-$e: list here, append( (), my ); //hack because https://github.com/sass/sass/issues/679
+$v: ( a, 2 );
+$a: ( args: ( $k, $v ) );
+$e: ( my: a, keys: 2 );  
 $t: test( $n, $a, $e );
 @include result( $t );
 

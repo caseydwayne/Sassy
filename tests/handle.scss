@@ -1,0 +1,33 @@
+///--------------------------------------------------------------------------///
+
+$test_handlers: (
+  string: thru,
+  list: thru,
+  kalamazoo: thru
+);
+
+$n: handle;
+
+//handle via (unregistered) handler (just the )
+$he: handle( kalamazoo, $test_handlers, rabbit );
+$e: rabbit;
+$t: test( $n, $he, $e );
+
+//register a handler
+$hr: handler;
+$h: handler( kitty, $test_handlers );
+
+//handle via registered handler
+$he2: handle( kalamazoo, kitty, rabbit );
+$t: test( $n, $he2, $e );
+
+//feed generic string for typecheck switch
+$x: randomstring;
+$a: ( args: ( $x, $x ) );
+$e: $a;
+$t: test( $n, $a, $a );
+
+@include result( $t );
+
+
+///--------------------------------------------------------------------------///

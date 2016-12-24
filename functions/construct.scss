@@ -1,32 +1,56 @@
 ///--------------------------------------------------------------------------///
 
-@import 'type';
+@import 'types';
 
-$CONSTRUCT_SIG: 'construct accepts 3 signatures: a'
+$CONSTRUCT_SIG: 'construct accepts 3 signatures:'
+  +'\a  1: all strings to be used as keys in a map'
+  +'\a  2: a list of all strings to be used as keys in a map'
+  +'\a  3: a list of all strings to be used as keys in a map,'
+  +'\a\    with a list of presets to assign keys (sequentially).';
 
 ///--------------------------------------------------------------------------///
 
 //creates a map of lists/maps by the keys provided as params
 @function construct( $keys... ){
+  
+  $_DEBUG: true;
+  $a: $keys; //backup
   $m: ();
-  $l: length( $k );  
+  $l: length( $keys );  
+  $default: ();
+  $presets: $default;  
+  
+  //check for alt signature
   @if type( nth( $keys, 1 ), list ){  
-   $keys: nth( $keys, 1 );
-   @if $l > 1 and type( nth( $keys, 2 ), list ){
-     //assume presets
-   }
+    $keys: nth( $keys, 1 );
+    @if $l > 1 {
+      $s: nth( $keys, 2 );
+       @if type( $s, list ){
+        //assume presets
+        $presets: $s;
+       }
+    }   
   }
-  @else {
-    @each $k in $keys {
-      @if type( $k, string ){
-        $m: map-merge( $m, ( #{$k}: () ) ); 
-      } @else
+  
+  $pl: length( $presets );
+  
+  //handle list of strings  
+  @for $i from 1 through $l {
+    $k: nth( $keys, $i );
+    @if type( $k, string ){
+      $v: if( $pl >= $i, nth( $presets, $i ), $default );
+      $m: map-merge( $m, ( #{$k}: $v ) );
+    } @else {
+      @error '#{$CONSTRUCT_SIG}\a  Received ( #{ types( $a ) } )';
     }
   }
   
-  
-  
   @return $m;
+  
 }
+
+///--------------------------------------------------------------------------///
+
+/// construct uses maps, best to just unit test
 
 ///--------------------------------------------------------------------------///

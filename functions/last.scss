@@ -7,7 +7,9 @@
   'compare',
   'type',
   'pop',
-  'split'
+  'split',
+  'divide',
+  'construct'
 ;
 
 ///--------------------------------------------------------------------------///
@@ -32,14 +34,21 @@
   @if type( $l ) != list { @error 'list-last requires a list! ( list, number )'; }
   @if type( $n, list ) { $n: length( $n ); } 
   $len: length( $l );
-  @if $n >= $l {
-    @error 'you are trying to get the last #{$n} values in a list that contains #{$l}. please correct this and try again.';
+  @if $len and $n >= $len {
+    //@error 'you are trying to get the last #{$n} values in a list with a length of #{$len}. please correct this and try again.';
+    @warn 'you are trying to get the last #{$n} values in a list with a length of #{$len}. please correct this and try again.';
   }
   @return if( $n > 1, nth( list-pop( $l, $n ), 1 ), nth( $l, $len ) );
 }
 
 @function map-last( $m, $n ){
-  
+  @if type( $m ) != map { @error 'map-last requires a map! ( map, number )'; }
+  @if type( $n, map ) { $n: length( $n ); }  
+  $x: divide( $m );
+  $k: list-last( nth( $x, 1 ) );
+  $v: list-last( nth( $x, 2 ) );
+  $r: construct( $k, $v );
+  @return $r;
   //@return 'map-last coming soon!';
 }
 
@@ -74,7 +83,7 @@ $sassy_last_handlers: (
 
 @function last( $x, $n: 1, $c: null ){
   
-  $_DEBUG: false;
+  $_DEBUG: 1;
   
   $t: type($x);
   $h: has( $sassy_last_handlers, $t, true );
@@ -83,6 +92,7 @@ $sassy_last_handlers: (
   @if type($h) != string {
     @error 'No last() handler found for #{$t}';
   } @else {
+    @if $_DEBUG { @debug 'calling method #{$h}'; }
     $r: call( $h, $x, $n );
     @if type($n) == $t { $c: $n; }
     @if $_DEBUG { @debug 'comparing \a#{$r} and \a#{$c}'; }

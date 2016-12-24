@@ -6,6 +6,8 @@ $LIST_POP_CHEW: "list-pop says you're biting off more than you can chew."
 
 $REVERSE_NEEDS_LIST:  'list-reverse requires a list.';
 
+///--------------------------------------------------------------------------///
+
 @function list-reverse( $list ){
 
   @if type-of( $list ) != list {
@@ -23,7 +25,6 @@ $REVERSE_NEEDS_LIST:  'list-reverse requires a list.';
   @return $r;
       
 }
-
 
 ///--------------------------------------------------------------------------///
 

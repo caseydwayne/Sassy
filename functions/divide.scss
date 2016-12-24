@@ -16,7 +16,7 @@
   $_DEBUG: false;
   
   @if type-of( $map ) != map {
-    @error 'map-divide requires valid maps after key(s)!'
+    @error 'map-divide requires a valid map!'
   }
   
   $k: map-keys( $map );

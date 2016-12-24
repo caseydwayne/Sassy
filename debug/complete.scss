@@ -1,8 +1,9 @@
 ///--------------------------------------------------------------------------///
 
-$_DEBUG: false;
-
 @mixin complete(){
+  
+  $_DEBUG: false;
+  
   $m: 'calculating results...';  
   $p: _get( passed );
   $f: _get( failed );
@@ -20,7 +21,7 @@ $_DEBUG: false;
   @else {
     $n: length( $f );
     //@debug ($f);
-    //$failed: pluck( name, $f );
+    $f: pluck( name, $f... ); //ignore IDE error if you see one
     $s: implode( $f );
     $m: '#{$n} tests failed... #{ $s }';
   }

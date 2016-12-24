@@ -1,12 +1,8 @@
 ///--------------------------------------------------------------------------///
 
-@import 'set';
-  
-///--------------------------------------------------------------------------///
-
 ///
 /// @method split
-/// separates key:value pairs into ( key, value ) list
+/// separates key:value pairs into ( ( key, value ), ( key, value ) ) list
 /// @param map {map} the map to split
 /// @return split_map {list} list of key/value pairs
 ///
@@ -39,6 +35,7 @@
   $a:( my: map, to: split );
   $r: split( $a );
   $e: ( my, map, to, split );
+  $t: test( $n, $a, $e );
   @debug 'split works: #{ $r == $e or $r }';  
   
 }

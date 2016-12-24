@@ -1,11 +1,12 @@
 ///--------------------------------------------------------------------------///
 
-/// reverse test
-$n: list-reverse;
-
-$a: append( (), ( my list here ) );
-$e: ( here list my );
+/// divide test
+$n: divide;
+$a: ( args: ( my: map, to: $n ) );
+$e: ( ( my, to ), ( map, $n ) );
 $t: test( $n, $a, $e );
 @include result( $t );
+
+
 
 ///--------------------------------------------------------------------------///

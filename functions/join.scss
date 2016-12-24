@@ -21,22 +21,5 @@
   @return $string;
 }
 
-@function list-merge( $lists... ){
-  $l: length( $lists );
-  $f: null;
-  $first: true;
-  @if $l {
-    $f: nth( $lists, 1 );
-    @if $l > 1 {
-      @each $l in $lists {
-        @if $first { $first: false }
-        @else {
-          $f: join( $f, $l );
-        }
-      }
-    }
-  }
-  @return $f;
-}
 
 ///--------------------------------------------------------------------------///

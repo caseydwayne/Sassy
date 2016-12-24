@@ -31,11 +31,9 @@ $HANDLER_NEEDS_MAP: 'the second param for handler() must be a map of strings. th
 
 ///--------------------------------------------------------------------------///
 
-$HANDLE_NOT_FOUND: 'No valid handler found for #{$handle}.'
-  + ' pass a ( string, map ) to handle or register a one via handler( name, handlers ).';
 $HANDLE_NOT_STRING: 'the first param for handle() must be a string that matches a key in the handler map.';
 
-@function handle( $handle, $handlers, $type: false ){
+@function handle( $handle, $handlers, $args: null, $type: false ){
   
   $ht: type( $handle );
   
@@ -58,7 +56,11 @@ $HANDLE_NOT_STRING: 'the first param for handle() must be a string that matches 
     } @else {
       @warn 'the handle #{$handle} was #{$h}, but #{$h} does not appear to be a function...';
     }
-  } @else { @error '#{$HANDLE_NOT_FOUND}'; }  
+  } @else { 
+    $HANDLE_NOT_FOUND: 'No valid handler found for #{$handle}.'
+      + ' pass a ( string, map ) to handle or register a one via handler( name, handlers ).';
+    @error '#{$HANDLE_NOT_FOUND}'; 
+  }  
   
   @return $r;  
   

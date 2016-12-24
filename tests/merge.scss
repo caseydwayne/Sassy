@@ -1,0 +1,26 @@
+///--------------------------------------------------------------------------///
+
+/// merge test
+$n: sassy-merge;
+$l: a b c;
+$x: d e f;
+$e: a b c d e f;
+$a: ( $l, $x );
+$t: test( $n, $a, $e );
+@include result( $t );
+
+$m:( my: map, to: merge );
+$x: ( with: this );
+$a: ( $m, $x );
+$e: ( my: map, to: merge, with: this );
+$t: test( $n, $a, $e );
+@include result( $t );
+
+$s: mystring;
+$x: isbetterthanyours;
+$a: ( $s, $x );
+$e: $s+$x;
+$t: test( $n, $a, $e );
+@include result( $t );
+
+///--------------------------------------------------------------------------///
