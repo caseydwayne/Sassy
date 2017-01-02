@@ -16,28 +16,20 @@
 ///--------------------------------------------------------------------------///
 
 @function types( $vars... ){
+  
   $r: ();
+  
   //if a single var, assume it is vars as map or list
   @if length( $vars ) == 1 {
     $vars: nth( $vars, 1 );
   }
+  
   //add each var's type to typelist ($r)
   @each $v in $vars {
     $r: append( $r, type($v) );
   }  
+  
   @return $r;
-}
-
-//checks that all types are the same
-@function types-same( $vars... ){
-  $t: types( $vars );
-  $l: length( $t );
-  $f: nth( $t, 1 );
-  $s: true;
-  @for $i from 2 through $l {
-    @if $s and nth( $t, 1 ) != $f { $s: false; }
-  }
-  @return $s;
 }
 
 ///--------------------------------------------------------------------------///
@@ -47,10 +39,6 @@
   @debug 'types works: #{ types( true, 1 ) == ( bool number ) }';
   @debug 'types [single list] works: #{ types( ( true, 1 ) ) == ( bool number ) }';
 
-  $n: types-same;
-  $a: ( lovely coconuts );
-  $r: call( $n, $a );
-  @debug '#{$n} works? #{$r}';
 }
 
 ///--------------------------------------------------------------------------///

@@ -3,8 +3,9 @@
 @mixin complete(){
   
   $_DEBUG: false;
-  
+  $SD: 'Sassy Debug: ';
   $m: 'calculating results...';  
+  $me: _get( name );
   $p: _get( passed );
   $f: _get( failed );
   $t: _get( total );  
@@ -15,17 +16,23 @@
     @debug 'passed: #{$l}, total: #{$t}, equal: #{$s}' 
   }
   
-  @if $s {
-    $m: 'All tests passed!'
-  }
+  $m: $SD + '#{$l} of #{$t} tests passed';
+  
+  @if $s { /* #{$m}! */ }
   @else {
-    $n: length( $f );
-    //@debug ($f);
-    $f: pluck( name, $f... ); //ignore IDE error if you see one
-    $s: implode( $f );
-    $m: '#{$n} tests failed... #{ $s }';
-  }
-  /* #{$m} */
+    $n: length( $f );    
+    /* #{$m} */
+    $m: $SD + '#{$n} tests failed...';    
+    /* #{$m} */
+    @for $i from 1 through $n {
+      $test: nth( $f, $i );
+      $name: get( $test, name );
+      $reason: get( $test, verdict );
+      $failure: $SD + '#{$name}: #{$reason}';
+      /* #{$failure} */
+    }
+  } 
+  
 }
 
 ///--------------------------------------------------------------------------///

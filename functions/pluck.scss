@@ -13,7 +13,12 @@
 
 @function pluck( $key, $maps... ){
   
+  $_DEBUG: false;
+  
   $p: ();  
+  
+  //allow list of maps
+  @if length($maps) == 1 { $maps: nth( $maps, 1 );  }
   
   @each $map in $maps {
     
@@ -21,7 +26,12 @@
       @error 'pluck( $keys, $maps... ) requires valid maps after key(s)!'
     }
   
-    $v: get( $map, $key );
+    $v: has( $map, $key, true );
+    
+    @if $_DEBUG { @debug 'plucking "#{$key}" from map, received #{type($v)}'; }
+    
+    @if $v == null { @warn 'Key #{$key} was not found in one of the maps'; }
+    
     $p: append( $p, $v );
     
   }
@@ -35,7 +45,7 @@
 @if false {
 
   $a: ( ( a: 1 ), ( a: 2 ), ( a: 3 ) );
-  $r: pluck( a, $a... );
+  $r: pluck( a, $a );
   $e: 1 2 3;  
   @debug 'pluck works: #{ $r == $e }';  
   

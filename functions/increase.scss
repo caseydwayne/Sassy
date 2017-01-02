@@ -32,8 +32,9 @@
     
     @if type( $n, number ) {      
       $v: $n + $x;
-      @if $_DEBUG { @debug 'changing #{$n} by #{$x}'; }
-      @return set( $map, $key, $v );
+      @if $_DEBUG { @debug 'changing #{$n} by #{$x} (result: #{$v})'; }
+      $map: set( $map, $key, $v );      
+      @return $map;
     } @else {
       @warn 'the key provided to increase did not lead to a number...';
     }

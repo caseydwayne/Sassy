@@ -6,7 +6,6 @@
 
 @include start('sassy');
 
-
 @import
   
   //tests are in order of dependencies
@@ -15,28 +14,26 @@
   'tests/has',
   'tests/compare',
   'tests/explode',
-  'tests/thru', // no need to test
-  //'tests/print',
-  //'tests/apply',
-  //'tests/each',
+  
+  // no need to test
+  'tests/thru', 
+  'tests/print',
+  'tests/apply',  
+  
   //each depends on at least 1 fn established above it
   'tests/contains',
   'tests/type',
   'tests/types',
+  'tests/types-same',
   'tests/get',
   'tests/set',
   'tests/increase',
-  'tests/decrease',
-  //'tests/first',
-  //'tests/last',
-  'tests/pop',
-  'tests/reverse',
-  'tests/split',
-  'tests/divide',
-  //'tests/handle'
-  'tests/merge'
-  //'tests/join',
+  'tests/decrease'
+  
 ;  
+
+//$x: test( failme, false ); //tests that failing works
+//@include test( 'mixin direct', true, true, variation ); 
 
 @include complete();
 

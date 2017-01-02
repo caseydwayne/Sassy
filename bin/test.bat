@@ -1,5 +1,5 @@
 @echo off
-title=node test
+title=Sassy Tests
 ::setup
 set origin="%CD%"
 
@@ -8,9 +8,10 @@ set sp=%origin%\..
 cd %sp%
 
 :run
-sass scss/test.scss --stdout
+sass test.scss
 :end
-pause >nul
+
+pause>nul
 
 echo Press any key to run test again (control+c to exit)
 

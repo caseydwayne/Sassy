@@ -2,7 +2,6 @@
 
 /// thru test
 $n: thru;
-
 $a: 'passed straight thru';
 $e: $a;
 $t: test( $n, $a, $e );

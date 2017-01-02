@@ -1,6 +1,7 @@
 ///--------------------------------------------------------------------------///
 
 @import 
+
   //no dependencies
   'functions/has',
   'functions/compare',
@@ -8,34 +9,17 @@
   'functions/implode',
   'functions/thru',
   'functions/print',
-  'functions/apply',
-  //v1.2
-  'functions/pluck',  
-  'functions/each',
+  'functions/apply',  
   
   //each depends on at least 1 fn established above it
   'functions/contains',
   'functions/type',
   'functions/types',
+  'functions/types-same',
   'functions/get',
   'functions/set',
   'functions/increase',
-  'functions/decrease',
-  
-  //v1.1 additions
-  'functions/first',
-  'functions/last',
-  
-  //v1.3 addons
-  'functions/reverse',
-  'functions/pop',
-  'functions/split',
-  'functions/divide',
-  //'functions/handle'
-  'functions/merge'
-  //'functions/join',
- 
-  //'functions/construct'
+  'functions/decrease'
   
 ;
   

@@ -33,9 +33,11 @@
     //first is name
     $n: nth( $a, 1 );    
     $s: nth( $a, 2 );
-    //second is boolean:result or argument(s)
-    @if type( $s, 'bool' ) { $r: $s } 
-    @else { $ma: $s; $r: apply( $n, $s ) };
+    $st: type( $s );
+    //second is argument(s) or result
+    @if $st == list { $ma: $s; $r: apply( $n, $s ); }
+    @else if $st == bool { $r: $s; }
+    @else { $r: call( $n, $s ); }
     @if $l > 2 {
       //third is the expect (if provided)
       $e: nth( $a, 3 );      
@@ -69,6 +71,14 @@
   @return $test;
   
 };
+
+
+@import 'result';
+
+@mixin test( $args... ){
+  @include result( apply( test, $args ) );
+}
+
 
 
 //@debug 'test(standard): #{ test( generic, true, true ) }';
