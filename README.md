@@ -2,6 +2,9 @@
 
 Sassy eases the pain for object-oriented programmers and makes getting around in SASS a little easier.
 
+> ##### *Sassy v1.5 will be released soon!*
+> Changes: All methods and mixins will now start with `sassy-`, with aliasing optional.
+
 ###Overview
 
 > Sassy provides some essential functionality and makes working with maps much easier.
@@ -16,8 +19,8 @@ Mapping Tools | Essentials            | Extras                | Administrative  
 ---           |---                    |---                    |---              |---
 [get](#get)   | [compare](#compare)   | [explode](#explode)   | [thru](#thru)   | [types](#types)
 [set](#set)   | [type](#type)         | [implode](#implode)   | [print](#print) | [types-same](#types-same)
-[has](#has)   | [contains](#contains) | [increase](#increase) | [apply](#apply) |
--             | -                     | [decrease](#decrease) | -               | -
+[has](#has)   | [contains](#contains) | [increase](#increase) | [apply](#apply) | -
+\-             | -                     | [decrease](#decrease) | -               | -
 
 
 
@@ -29,12 +32,12 @@ All methods that use a ( map, key, ... ) signature **allow for nested maps** usi
 
     ( list, of, keys )
     
--
+---
 
 <details>
 <summary>View Sassy methods and uses.</summary>
 
-####get
+#### get
 > gets an value from a map key. for nested maps, use a list of keys
 
 <details><summary>
@@ -51,9 +54,9 @@ Signature:
 
 </details>
 
--
+---
 
-####set
+#### set
 > sets a key:value pair in a map. for nested maps, use a key list
 
 <details><summary>
@@ -72,9 +75,9 @@ Signature:
 
 </details>
 
--
+---
 
-####has 
+#### has 
 > checks if a map has a key. optionally returns the value
 
 <details><summary>
@@ -91,9 +94,9 @@ Optional default value IF NO KEY (otherwise returns null).
 
 </details>
 
--
+---
 
-####compare
+#### compare
 > compares 2 things
 
 <details><summary>
@@ -108,9 +111,9 @@ Signature: compare( A, B )
 
 </details>
 
--
+---
 
-####type 
+#### type 
 > gets the type of an object (optional check string to compare and return bool)
 
 <details><summary>
@@ -125,9 +128,9 @@ Signature: type( var, [against] )
 
 </details>
 
--
+---
 
-####types
+#### types
 > returns the types of all args provided in a new list
 
 <details><summary>
@@ -142,9 +145,9 @@ Signature: types ( varN... )
 
 </details>
 
--
+---
 
-####types-same
+#### types-same
 > checks that all vars provided are the same type
 
 <details><summary>
@@ -159,9 +162,9 @@ Signature: types-same ( varN... )
 
 </details>
 
--
+---
 
-####contains
+#### contains
 > checks if one thing contains another
 
 <details><summary>
@@ -176,9 +179,9 @@ Signature: contains( haystack, needle )
 
 </details>
 
--
+---
 
-####explode
+#### explode
 > breaks a string by {delimiter}, returns as list
 
 <details><summary>
@@ -193,9 +196,9 @@ Signature: explode( string, [delimiter='-'] )
 
 </details>
 
--
+---
 
-####implode
+#### implode
 > joins list items between glue, returning as a string
 
 <details><summary>
@@ -212,9 +215,9 @@ Signature: implode( list, [wrap=false], [glue=', '] )
 
 </details>
 
--
+---
 
-####thru( any )
+#### thru( any )
 > returns the first argument straight thru (useful for testing purposes)
 
 <details><summary>
@@ -229,9 +232,9 @@ Signature: thru( any )
 
 </details>
 
--
+---
 
-####print
+#### print
 > prints a map as a string representation (similar to native "inspect" function)
 
 <details><summary>
@@ -246,9 +249,9 @@ Signature: print( map )
 
 </details>
 
--
+---
 
-####apply
+#### apply
 > essentially 'calls' a function. values will be fed as call unless they are a list or map. if list, passed as multiple args. if you need to pass a single list, use an "argsmap" ( args: ( your, list ) ) as the arguments param. used by debugger
 
 <details><summary>
@@ -266,9 +269,9 @@ Signature:
 
 </details>
 
--
+---
 
-####increase
+#### increase
 > increases a number [in a map] by X
 
 <details><summary>
@@ -285,9 +288,9 @@ Signature:
 
 </details>
 
--
+---
 
-####decrease
+#### decrease
 > decreases a number [in a map] by X
 
 <details><summary>
@@ -304,9 +307,9 @@ Signature:
 
 </details>
 
--
+---
 
-####pluck
+#### pluck
 > pulls a shared key from multiple maps
 
 <details><summary>
@@ -338,7 +341,7 @@ There are only 3 mixins you need (really only "test", but it's better to use all
 <details>
 <summary>View Sassy debug mixins</summary>
 
--
+---
 
 Mixin: start
 > starts a debugger
@@ -347,7 +350,7 @@ Signature: @include start(debug_name)
 
 
 
--
+---
 
 Mixin: test
 > performs a unit test and echos result
@@ -374,7 +377,7 @@ Signature:
 
 </details>
 
--
+---
 
 Mixin: complete
 > reports a summary of pass | fail.
@@ -388,6 +391,6 @@ Signature: @include complete;
 
 </details>
 
---
+---
 
 **That's all!** *Enjoy the software!*
