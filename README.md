@@ -5,7 +5,7 @@ Sassy eases the pain for object-oriented programmers and makes getting around in
 > ##### *Sassy v1.5 will be released soon!*
 > Changes: All methods and mixins will now start with `sassy-`, with aliasing optional.
 
-###Overview
+### Overview
 
 > Sassy provides some essential functionality and makes working with maps much easier.
  
